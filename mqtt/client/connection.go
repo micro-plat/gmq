@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"net"
 	"sync"
+	"time"
 
 	"github.com/yosssi/gmq/mqtt/packet"
 )
@@ -52,16 +53,17 @@ type connection struct {
 
 // newConnection connects to the address on the named network,
 // creates a Network Connection and returns it.
-func newConnection(network, address string, tlsConfig *tls.Config) (*connection, error) {
+func newConnection(network, address string, tlsConfig *tls.Config, dailTimeout time.Duration) (*connection, error) {
 	// Define the local variables.
 	var conn net.Conn
 	var err error
 
 	// Connect to the address on the named network.
 	if tlsConfig != nil {
-		conn, err = tls.Dial(network, address, tlsConfig)
+		dialer := &net.Dialer{Timeout: dailTimeout}
+		conn, err = tls.DialWithDialer(dialer, network, address, tlsConfig)
 	} else {
-		conn, err = net.Dial(network, address)
+		conn, err = net.DialTimeout(network, address, dailTimeout)
 	}
 	if err != nil {
 		return nil, err

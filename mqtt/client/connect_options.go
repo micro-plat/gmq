@@ -17,6 +17,7 @@ type ConnectOptions struct {
 	// CONNACKTimeout is timeout in seconds for the Client
 	// to wait for receiving the CONNACK Packet after sending
 	// the CONNECT Packet.
+	DailTimeout    time.Duration
 	CONNACKTimeout time.Duration
 	// PINGRESPTimeout is timeout in seconds for the Client
 	// to wait for receiving the PINGRESP Packet after sending

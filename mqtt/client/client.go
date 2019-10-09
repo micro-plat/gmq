@@ -74,7 +74,7 @@ func (cli *Client) Connect(opts *ConnectOptions) error {
 	}
 
 	// Establish a Network Connection.
-	conn, err := newConnection(opts.Network, opts.Address, opts.TLSConfig)
+	conn, err := newConnection(opts.Network, opts.Address, opts.TLSConfig, opts.DailTimeout)
 	if err != nil {
 		return err
 	}
