@@ -59,6 +59,9 @@ func newConnection(network, address string, tlsConfig *tls.Config, dailTimeout t
 	var err error
 
 	// Connect to the address on the named network.
+	if dailTimeout == 0 {
+		dailTimeout = 3 * time.Second
+	}
 	if tlsConfig != nil {
 		dialer := &net.Dialer{Timeout: dailTimeout}
 		conn, err = tls.DialWithDialer(dialer, network, address, tlsConfig)
